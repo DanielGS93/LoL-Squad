@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1626">
+  <title>LoL Squad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="device">
+
+    <!-- ========== SPLASH ========== -->
+    <section class="screen screen--center" data-route="splash" aria-label="Cargando">
+      <svg class="emblem emblem--draw" viewBox="0 0 120 120" width="120" height="120" aria-hidden="true">
+        <path class="d1" pathLength="1" d="M60 6 L114 60 L60 114 L6 60 Z"/>
+        <path class="d2" pathLength="1" d="M60 30 L90 60 L60 90 L30 60 Z"/>
+        <path class="d3" d="M60 50 L70 60 L60 70 L50 60 Z"/>
+      </svg>
+      <h1 class="wordmark">LoL Squad</h1>
+      <p class="muted" role="status">Cargando tu sesión</p>
+    </section>
+
+    <!-- ========== BIENVENIDA ========== -->
+    <section class="screen screen--center" data-route="welcome">
+      <svg class="emblem emblem--small" viewBox="0 0 120 120" width="72" height="72" aria-hidden="true">
+        <path d="M60 6 L114 60 L60 114 L6 60 Z"/>
+        <path d="M60 30 L90 60 L60 90 L30 60 Z"/>
+        <path d="M60 50 L70 60 L60 70 L50 60 Z"/>
+      </svg>
+      <h1 class="headline" tabindex="-1" data-focus>Encuentra tu duo ideal</h1>
+      <p class="lead">Juega con gente de tu rango, tu rol y tu horario.</p>
+      <button class="btn btn--primary btn--block" type="button" id="btn-continue-riot">Continuar con Riot</button>
+      <p class="legal">
+        <a href="#/welcome" id="link-terms">Términos y privacidad</a><br>
+        LoL Squad no está respaldada por Riot Games.
+      </p>
+    </section>
+
+    <!-- ========== VINCULAR CUENTA ========== -->
+    <section class="screen" data-route="link-account">
+      <button class="back" type="button" id="btn-back">Volver</button>
+
+      <div id="link-step-1">
+        <h1 class="title" tabindex="-1" data-focus>Vincula tu cuenta</h1>
+        <p class="lead">Escribe tu Riot ID y elige tu región. Después confirmaremos que la cuenta es tuya.</p>
+        <form id="form-riot" novalidate>
+          <div class="field">
+            <label for="riot-id">Riot ID</label>
+            <input id="riot-id" name="riotId" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Nombre#TAG" aria-describedby="riot-id-error">
+            <p class="field-error" id="riot-id-error" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="region">Región</label>
+            <select id="region" name="region"></select>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit">Continuar</button>
+        </form>
+      </div>
+
+      <div id="link-step-2" hidden>
+        <h1 class="title" tabindex="-1" data-focus-step2>Confirma que eres tú</h1>
+        <p class="lead">Cambia tu ícono de invocador en el cliente de LoL y pulsa Verificar.</p>
+        <div class="icon-challenge">
+          <span class="icon-challenge__label">Ícono número</span>
+          <span class="icon-challenge__number" id="icon-number">0</span>
+        </div>
+        <p class="muted small" id="verify-account"></p>
+        <button class="btn btn--primary btn--block" type="button" id="btn-verify">Verificar</button>
+        <button class="btn btn--ghost btn--block" type="button" id="btn-edit-id">Cambiar Riot ID</button>
+      </div>
+    </section>
+
+    <!-- ========== CREAR PERFIL ========== -->
+    <section class="screen" data-route="create-profile">
+      <h1 class="title" tabindex="-1" data-focus>Crea tu perfil</h1>
+      <p class="lead">Así te verán otros jugadores. Tu rango se sincronizará desde Riot más adelante.</p>
+
+      <form id="form-profile" novalidate>
+        <fieldset class="field">
+          <legend>Rol principal</legend>
+          <div class="chips" id="chips-main-role"></div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Rol secundario</legend>
+          <div class="chips" id="chips-second-role"></div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Idiomas</legend>
+          <div class="chips" id="chips-langs"></div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Estilo de juego</legend>
+          <div class="chips" id="chips-style"></div>
+        </fieldset>
+        <div class="field">
+          <label for="bio">Presentación</label>
+          <textarea id="bio" name="bio" rows="3" maxlength="120" placeholder="Cuéntales cómo juegas"></textarea>
+          <p class="counter" id="bio-count" aria-live="polite">0/120</p>
+        </div>
+        <p class="field-error" id="profile-error" role="alert"></p>
+        <button class="btn btn--primary btn--block" type="submit">Guardar y entrar</button>
+      </form>
+    </section>
+
+    <!-- ========== INICIO (4 pestañas) ========== -->
+    <section class="screen screen--home" data-route="home">
+      <div class="panels">
+
+        <div class="panel" data-panel="explore">
+          <h1 class="title" tabindex="-1">Explorar</h1>
+          <div class="chips chips--scroll" id="explore-filters" role="group" aria-label="Filtrar por rol"></div>
+          <ul class="list" id="player-list"></ul>
+        </div>
+
+        <div class="panel" data-panel="ads" hidden>
+          <h1 class="title" tabindex="-1">Anuncios</h1>
+          <div class="empty">
+            <p class="empty__title">Aún no hay anuncios en tu región</p>
+            <p class="muted">Publica uno para encontrar duo o equipo.</p>
+            <button class="btn btn--primary" type="button" id="btn-new-ad">Publicar anuncio</button>
+          </div>
+        </div>
+
+        <div class="panel" data-panel="chats" hidden>
+          <h1 class="title" tabindex="-1">Chats</h1>
+          <div class="empty">
+            <p class="empty__title">Todavía no tienes conversaciones</p>
+            <p class="muted">Envía una solicitud desde Explorar. Cuando la acepten, el chat aparecerá aquí.</p>
+          </div>
+        </div>
+
+        <div class="panel" data-panel="profile" hidden>
+          <h1 class="title" tabindex="-1">Perfil</h1>
+          <div id="own-profile"></div>
+          <button class="btn btn--ghost btn--block" type="button" id="btn-logout">Cerrar sesión y reiniciar demo</button>
+        </div>
+
+      </div>
+
+      <nav class="tabbar" aria-label="Secciones principales">
+        <button class="tab" type="button" data-tab="explore">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+          <span>Explorar</span>
+        </button>
+        <button class="tab" type="button" data-tab="ads">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4 10v4h3l7 4V6L7 10H4z"/><path d="M17.5 9.5a4 4 0 010 5"/></svg>
+          <span>Anuncios</span>
+        </button>
+        <button class="tab" type="button" data-tab="chats">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/></svg>
+          <span>Chats</span>
+        </button>
+        <button class="tab" type="button" data-tab="profile">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.4-5.5 7-5.5s6.2 1.9 7 5.5"/></svg>
+          <span>Perfil</span>
+        </button>
+      </nav>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
